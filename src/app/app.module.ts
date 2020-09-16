@@ -13,6 +13,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldControl, MatFormFieldModule} from '@angular/material/form-field';
 import {MatDatepicker, MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {MatNativeDateModule} from '@angular/material/core';
     BrowserAnimationsModule,
     MatExpansionModule,
     MatIconModule,
+    MatInputModule,
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule

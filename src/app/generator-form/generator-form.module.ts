@@ -8,7 +8,6 @@ import {StatisticsComponent} from '../statistics/statistics.component';
     StatisticsComponent
   ],
   imports: [
-    Mater
   ],
   providers: [],
   bootstrap: [GeneratorFormComponent]
