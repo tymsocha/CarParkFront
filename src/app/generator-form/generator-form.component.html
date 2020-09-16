@@ -1,0 +1,30 @@
+
+  <div *ngIf="flag == true" class="ui large form segment">
+
+    <h3 class="ui header">Set number of floors and spots in Parking Lot: </h3>
+
+    <form (ngSubmit)="setFlag()" #generatorForm="ngForm">
+
+      <div class="form-group">
+        <label for="floors">Floors:</label>
+        <br>
+        <input name="floors" class="floors" #floors required>
+      </div>
+
+      <div class="form-group">
+        <label for="spots">Spots:</label>
+        <br>
+        <input name="spots" class="spots" #spots required>
+      </div>
+
+      <button type="submit" class="btn btn-success" [disabled]="!generatorForm.form.valid">
+        GENERATE
+      </button>
+
+    </form>
+  </div>
+
+  <app-statistics *ngIf="flag == false"></app-statistics>
+
+
+
