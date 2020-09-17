@@ -1,1 +1,204 @@
-<app-statistic-chart></app-statistic-chart>
+<mat-accordion class="example-headers-align width-100">
+
+  <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Number of employees for floors and their daily salary
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <form (ngSubmit)="getNumberOfEmployeesForFloorsAndTheirDailySalary()" [formGroup]="this.dailySalaryForm">
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Hourly salary</mat-label>
+          <input matInput type="number" min="0" formControlName="hourlySalary">
+          <span matSuffix>zł</span>
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Spots</mat-label>
+          <input matInput type="number" min="1" formControlName="spots">
+        </mat-form-field>
+      </p>
+
+      <div class="d-flex flex-end">
+        <button mat-raised-button color="primary" type="submit" [disabled]="this.dailySalaryForm.invalid">
+          Generate
+        </button>
+      </div>
+    </form>
+    <mat-action-row>
+      <button mat-button color="primary" (click)="nextStep()">Next</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+
+  <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Electricity consumption for car park
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <form (ngSubmit)="getElectricityConsumptionForCarPark()" [formGroup]="this.electricityConsumptionForCarParkForm">
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Cost</mat-label>
+          <input matInput type="number" min="0" formControlName="cost">
+          <span matSuffix>zł</span>
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Energy consumption </mat-label>
+          <input matInput type="number" min="0" formControlName="energyConsumption">
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Start date</mat-label>
+          <input matInput type="date" formControlName="startDate">
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>End date</mat-label>
+          <input matInput type="date" formControlName="endDate">
+        </mat-form-field>
+      </p>
+
+      <div class="d-flex flex-end">
+        <button mat-raised-button color="primary" type="submit" [disabled]="this.electricityConsumptionForCarParkForm.invalid">
+          Generate
+        </button>
+      </div>
+    </form>
+    <mat-action-row>
+      <button mat-button color="accent" (click)="prevStep()">Previous</button>
+      <button mat-button color="primary" (click)="nextStep()">Next</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Electricity consumption for floor
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <form (ngSubmit)="getElectricityConsumptionForFloor()" [formGroup]="this.electricityConsumptionForFloorForm">
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Cost</mat-label>
+          <input matInput type="number" min="0" formControlName="cost">
+          <span matSuffix>zł</span>
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Energy consumption </mat-label>
+          <input matInput type="number" min="0" formControlName="energyConsumption">
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Floor </mat-label>
+          <input matInput type="number" min="0" formControlName="floor">
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Start date</mat-label>
+          <input matInput type="date" formControlName="startDate">
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>End date</mat-label>
+          <input matInput type="date" formControlName="endDate">
+        </mat-form-field>
+      </p>
+
+      <div class="d-flex flex-end">
+        <button mat-raised-button color="primary" type="submit" [disabled]="this.electricityConsumptionForFloorForm.invalid">
+          Generate
+        </button>
+      </div>
+    </form>
+
+    <div *ngIf="this.electricityConsumptionForFloorChart">
+      <div>
+        <div style="display: block">
+          <canvas baseChart
+                  [datasets]="this.electricityConsumptionForFloorChart.datasets"
+                  [labels]="this.electricityConsumptionForFloorChart.labels"
+                  [chartType]="this.electricityConsumptionForFloorChart.chartType"
+                  [options]="this.electricityConsumptionForFloorChart.options">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <mat-action-row>
+      <button mat-button color="accent" (click)="prevStep()">Previous</button>
+      <button mat-button color="primary" (click)="nextStep()">Next</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+
+  <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Electricity consumption for spot
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <form (ngSubmit)="getElectricityConsumptionForSpot()" [formGroup]="this.electricityConsumptionForSpotForm">
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Cost</mat-label>
+          <input matInput type="number" min="0" formControlName="cost">
+          <span matSuffix>zł</span>
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Energy consumption </mat-label>
+          <input matInput type="number" min="0" formControlName="energyConsumption">
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Spot </mat-label>
+          <input matInput type="number" min="0" formControlName="spot">
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Start date</mat-label>
+          <input matInput type="date" formControlName="startDate">
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>End date</mat-label>
+          <input matInput type="date" formControlName="endDate">
+        </mat-form-field>
+      </p>
+
+      <div class="d-flex flex-end">
+        <button mat-raised-button color="primary" type="submit" [disabled]="this.electricityConsumptionForSpotForm.invalid">
+          Generate
+        </button>
+      </div>
+    </form>
+
+    <mat-action-row>
+      <button mat-button color="accent" (click)="prevStep()">Previous</button>
+      <button mat-button color="primary" (click)="nextStep()">Next</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+
+</mat-accordion>

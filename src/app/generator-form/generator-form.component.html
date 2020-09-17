@@ -2,7 +2,7 @@
 
   <h3 class="ui header">Set number of floors and spots in Parking Lot: </h3>
 
-  <form (ngSubmit)="setFlag()" [formGroup]="this.generatorForm">
+  <form (ngSubmit)="submit()" [formGroup]="this.generatorForm">
 
     <div class="form-group">
       <mat-form-field>
@@ -18,8 +18,9 @@
       </mat-form-field>
     </div>
 
-    <button mat-raised-button color="primary" type="submit" class="uppercase" [disabled]="this.generatorForm.invalid">
-      Generate
+    <button mat-raised-button color="primary" type="submit" class="uppercase" [disabled]="this.generatorForm.invalid || this.isLoading">
+      <span *ngIf="!this.isLoading">Generate</span>
+      <span *ngIf="this.isLoading">Loading data...</span>
     </button>
 
   </form>

@@ -7,20 +7,6 @@ import { Component, ViewChild } from '@angular/core';
 })
 export class StatisticChartComponent {
 
-  constructor() { }
 
-  step = 0;
-
-  setStep(index: number): void {
-    this.step = index;
-  }
-
-  nextStep(): void {
-    this.step++;
-  }
-
-  prevStep(): void {
-    this.step--;
-  }
 
 }

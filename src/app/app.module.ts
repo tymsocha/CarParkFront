@@ -16,6 +16,7 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {HttpClientModule} from '@angular/common/http';
 import {MatButtonModule} from '@angular/material/button';
+import {ChartsModule} from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import {MatButtonModule} from '@angular/material/button';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ChartsModule,
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,

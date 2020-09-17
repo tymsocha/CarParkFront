@@ -13,3 +13,27 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .uppercase {
   text-transform: uppercase;
 }
+
+.mat-form-field + .mat-form-field, .mat-form-field + button  {
+  margin-left: 8px;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.margin-0 {
+  margin: 0;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.flex-end {
+  justify-content: flex-end;
+}
+
+app-statistics {
+  width: 100%;
+}
