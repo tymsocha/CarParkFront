@@ -17,6 +17,13 @@ import {MatInputModule} from '@angular/material/input';
 import {HttpClientModule} from '@angular/common/http';
 import {MatButtonModule} from '@angular/material/button';
 import {ChartsModule} from 'ng2-charts';
+import {MatListModule} from '@angular/material/list';
+import {
+  NgxMatDateAdapter,
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule
+} from '@angular-material-components/datetime-picker';
 
 @NgModule({
   declarations: [
@@ -35,11 +42,15 @@ import {ChartsModule} from 'ng2-charts';
     ReactiveFormsModule,
     MatExpansionModule,
     MatIconModule,
+    MatListModule,
     MatInputModule,
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatButtonModule
+    MatButtonModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]

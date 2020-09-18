@@ -1,3 +1,5 @@
+
+
 <mat-accordion class="example-headers-align width-100">
 
   <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
@@ -11,14 +13,14 @@
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Hourly salary</mat-label>
-          <input matInput type="number" min="0" formControlName="hourlySalary">
+          <input matInput type="number" min="0" formControlName="hourlySalary" required>
           <span matSuffix>zł</span>
         </mat-form-field>
       </p>
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Spots</mat-label>
-          <input matInput type="number" min="1" formControlName="spots">
+          <input matInput type="number" min="1" formControlName="spots" required>
         </mat-form-field>
       </p>
 
@@ -45,35 +47,58 @@
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Cost</mat-label>
-          <input matInput type="number" min="0" formControlName="cost">
+          <input matInput type="number" min="0" formControlName="cost" required>
           <span matSuffix>zł</span>
         </mat-form-field>
       </p>
       <p class="margin-0">
         <mat-form-field class="width-100">
-          <mat-label>Energy consumption </mat-label>
-          <input matInput type="number" min="0" formControlName="energyConsumption">
+          <mat-label>Energy consumption</mat-label>
+          <input matInput type="number" min="0" formControlName="energyConsumption" required>
         </mat-form-field>
       </p>
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Start date</mat-label>
-          <input matInput type="date" formControlName="startDate">
+          <input matInput type="datetime-local" formControlName="startDate">
         </mat-form-field>
       </p>
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>End date</mat-label>
-          <input matInput type="date" formControlName="endDate">
+          <input matInput type="datetime-local" formControlName="endDate">
         </mat-form-field>
       </p>
 
       <div class="d-flex flex-end">
-        <button mat-raised-button color="primary" type="submit" [disabled]="this.electricityConsumptionForCarParkForm.invalid">
+        <button mat-raised-button color="primary" type="submit"
+                [disabled]="this.electricityConsumptionForCarParkForm.invalid">
           Generate
         </button>
       </div>
     </form>
+
+
+
+    <div *ngIf="this.electricityConsumptionForCarParkChart">
+      <p>
+        Total energy consumption: <strong>{{this.electricityConsumptionForCarParkChart.totalEnergyConsumption}}</strong>
+      </p>
+      <p>
+        Total energy cost: <strong>{{this.electricityConsumptionForCarParkChart.totalEnergyCost}}</strong>
+      </p>
+      <div>
+        <div style="display: block">
+          <canvas baseChart
+                  [datasets]="this.electricityConsumptionForCarParkChart.datasets"
+                  [labels]="this.electricityConsumptionForCarParkChart.labels"
+                  [chartType]="this.electricityConsumptionForCarParkChart.chartType"
+                  [options]="this.electricityConsumptionForCarParkChart.options">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
     <mat-action-row>
       <button mat-button color="accent" (click)="prevStep()">Previous</button>
       <button mat-button color="primary" (click)="nextStep()">Next</button>
@@ -91,43 +116,50 @@
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Cost</mat-label>
-          <input matInput type="number" min="0" formControlName="cost">
+          <input matInput type="number" min="0" formControlName="cost" required>
           <span matSuffix>zł</span>
         </mat-form-field>
       </p>
       <p class="margin-0">
         <mat-form-field class="width-100">
-          <mat-label>Energy consumption </mat-label>
-          <input matInput type="number" min="0" formControlName="energyConsumption">
+          <mat-label>Energy consumption</mat-label>
+          <input matInput type="number" min="0" formControlName="energyConsumption" required>
         </mat-form-field>
       </p>
       <p class="margin-0">
         <mat-form-field class="width-100">
-          <mat-label>Floor </mat-label>
-          <input matInput type="number" min="0" formControlName="floor">
+          <mat-label>Floor</mat-label>
+          <input matInput type="number" min="0" formControlName="floor" required>
         </mat-form-field>
       </p>
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Start date</mat-label>
-          <input matInput type="date" formControlName="startDate">
+          <input matInput type="datetime-local" formControlName="startDate">
         </mat-form-field>
       </p>
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>End date</mat-label>
-          <input matInput type="date" formControlName="endDate">
+          <input matInput type="datetime-local" formControlName="endDate">
         </mat-form-field>
       </p>
 
       <div class="d-flex flex-end">
-        <button mat-raised-button color="primary" type="submit" [disabled]="this.electricityConsumptionForFloorForm.invalid">
+        <button mat-raised-button color="primary" type="submit"
+                [disabled]="this.electricityConsumptionForFloorForm.invalid">
           Generate
         </button>
       </div>
     </form>
 
     <div *ngIf="this.electricityConsumptionForFloorChart">
+      <p>
+        Total energy consumption: <strong>{{this.electricityConsumptionForFloorChart.totalEnergyConsumption}}</strong>
+      </p>
+      <p>
+        Total energy cost: <strong>{{this.electricityConsumptionForFloorChart.totalEnergyCost}}</strong>
+      </p>
       <div>
         <div style="display: block">
           <canvas baseChart
@@ -158,41 +190,157 @@
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Cost</mat-label>
-          <input matInput type="number" min="0" formControlName="cost">
+          <input matInput type="number" min="0" formControlName="cost" required>
           <span matSuffix>zł</span>
         </mat-form-field>
       </p>
       <p class="margin-0">
         <mat-form-field class="width-100">
-          <mat-label>Energy consumption </mat-label>
-          <input matInput type="number" min="0" formControlName="energyConsumption">
+          <mat-label>Energy consumption</mat-label>
+          <input matInput type="number" min="0" formControlName="energyConsumption" required>
         </mat-form-field>
       </p>
       <p class="margin-0">
         <mat-form-field class="width-100">
-          <mat-label>Spot </mat-label>
-          <input matInput type="number" min="0" formControlName="spot">
+          <mat-label>Spot name</mat-label>
+          <input matInput type="text" formControlName="spot" required>
         </mat-form-field>
       </p>
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Start date</mat-label>
-          <input matInput type="date" formControlName="startDate">
+          <input matInput type="datetime-local" formControlName="startDate">
         </mat-form-field>
       </p>
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>End date</mat-label>
-          <input matInput type="date" formControlName="endDate">
+          <input matInput type="datetime-local" formControlName="endDate">
         </mat-form-field>
       </p>
 
       <div class="d-flex flex-end">
-        <button mat-raised-button color="primary" type="submit" [disabled]="this.electricityConsumptionForSpotForm.invalid">
+        <button mat-raised-button color="primary" type="submit"
+                [disabled]="this.electricityConsumptionForSpotForm.invalid">
           Generate
         </button>
       </div>
     </form>
+
+    <div *ngIf="this.electricityConsumptionForSpotChart">
+      <div>
+        <div style="display: block">
+          <canvas baseChart
+                  [datasets]="this.electricityConsumptionForSpotChart.datasets"
+                  [labels]="this.electricityConsumptionForSpotChart.labels"
+                  [chartType]="this.electricityConsumptionForSpotChart.chartType"
+                  [options]="this.electricityConsumptionForSpotChart.options">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <mat-action-row>
+      <button mat-button color="accent" (click)="prevStep()">Previous</button>
+      <button mat-button color="primary" (click)="nextStep()">Next</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Occupation time for floor
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <form (ngSubmit)="getOccupationTimeAmount()" [formGroup]="this.occupationTimeAmountForm">
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Floor</mat-label>
+          <input matInput type="number" min="0" formControlName="floor" required>
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Start date</mat-label>
+          <input matInput type="datetime-local" formControlName="startDate">
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>End date</mat-label>
+          <input matInput type="datetime-local" formControlName="endDate">
+        </mat-form-field>
+      </p>
+
+      <div class="d-flex flex-end">
+        <button mat-raised-button color="primary" type="submit" [disabled]="this.occupationTimeAmountForm.invalid">
+          Generate
+        </button>
+      </div>
+    </form>
+
+    <div *ngIf="this.occupationTimeAmountChart">
+      <div>
+        <div style="display: block">
+          <canvas baseChart
+                  [datasets]="this.occupationTimeAmountChart.datasets"
+                  [labels]="this.occupationTimeAmountChart.labels"
+                  [chartType]="this.occupationTimeAmountChart.chartType"
+                  [options]="this.occupationTimeAmountChart.options">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <mat-action-row>
+      <button mat-button color="accent" (click)="prevStep()">Previous</button>
+      <button mat-button color="primary" (click)="nextStep()">Next</button>
+    </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Occupied slots in time
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <form (ngSubmit)="getSpotsOccupiedInTimePeriod()" [formGroup]="this.spotsOccupiedInTimePeriodForm">
+      <p>
+
+      <mat-form-field class="width-100">
+        <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" [formControl]="time">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <ngx-mat-datetime-picker #picker [showSpinners]="true" [showSeconds]="false"
+                                 [defaultTime]="[8, 0, 0]"
+                                 [stepHour]="1" [stepMinute]="30">
+        </ngx-mat-datetime-picker>
+      </mat-form-field>
+      </p>
+
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Time</mat-label>
+          <input matInput type="datetime-local" formControlName="time" required step="1800">
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Floor</mat-label>
+          <input matInput type="number" min="0" formControlName="floor">
+        </mat-form-field>
+      </p>
+      <div class="d-flex flex-end">
+        <button mat-raised-button color="primary" type="submit" [disabled]="this.spotsOccupiedInTimePeriodForm.invalid">
+          Generate
+        </button>
+      </div>
+    </form>
+
+    <mat-list class="spots-list">
+      <mat-list-item *ngFor="let item of this.spotsOccupiedInTimePeriodData">Spot {{item}} </mat-list-item>
+    </mat-list>
 
     <mat-action-row>
       <button mat-button color="accent" (click)="prevStep()">Previous</button>

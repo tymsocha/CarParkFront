@@ -4,6 +4,9 @@ import {StatisticsService} from './statistics.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {catchError, map} from 'rxjs/operators';
 import {ElectricityConsumptionForFloor} from '../classes/electricity-consumption-for-floor';
+import {OccupationTimeAmount} from '../classes/occupation-time-amount';
+import {ElectricityConsumptionForCarPark} from '../classes/electricity-consumption-for-car-park';
+import {ElectricityConsumptionForSpot} from '../classes/electricity-consumption-for-spot';
 
 @Component({
   selector: 'app-statistics',
@@ -16,8 +19,16 @@ export class StatisticsComponent implements OnInit {
   electricityConsumptionForCarParkForm: FormGroup;
   electricityConsumptionForFloorForm: FormGroup;
   electricityConsumptionForSpotForm: FormGroup;
+  occupationTimeAmountForm: FormGroup;
+  spotsOccupiedInTimePeriodForm: FormGroup;
 
   electricityConsumptionForFloorChart: ElectricityConsumptionForFloor;
+  occupationTimeAmountChart: OccupationTimeAmount;
+  electricityConsumptionForCarParkChart: ElectricityConsumptionForCarPark;
+  electricityConsumptionForSpotChart: ElectricityConsumptionForSpot;
+  spotsOccupiedInTimePeriodData: string[];
+
+  timeModel;
 
   constructor(private statisticsService: StatisticsService) {
   }
@@ -54,6 +65,17 @@ export class StatisticsComponent implements OnInit {
       energyConsumption: new FormControl('', Validators.required),
       spot: new FormControl('', Validators.required)
     });
+
+    this.occupationTimeAmountForm = new FormGroup({
+      startDate: new FormControl(''),
+      endDate: new FormControl(''),
+      floor: new FormControl('', Validators.required)
+    });
+
+    this.spotsOccupiedInTimePeriodForm = new FormGroup({
+      time: new FormControl('', Validators.required),
+      floor: new FormControl('')
+    });
   }
 
   setStep(index: number): void {
@@ -72,13 +94,12 @@ export class StatisticsComponent implements OnInit {
     this.statisticsService.getElectricityConsumptionForCarPark(
       this.electricityConsumptionForCarParkForm.value.cost,
       this.electricityConsumptionForCarParkForm.value.energyConsumption,
-      this.electricityConsumptionForCarParkForm.value.startDate,
-      this.electricityConsumptionForCarParkForm.value.endDate
+      this.getCorrectDate(this.electricityConsumptionForCarParkForm.value.startDate),
+      this.getCorrectDate(this.electricityConsumptionForCarParkForm.value.endDate)
     )
       .subscribe(response => {
-        console.log(response);
+        this.electricityConsumptionForCarParkChart = new ElectricityConsumptionForCarPark(response);
       }, error => {
-        console.log(error);
       });
   }
 
@@ -87,14 +108,12 @@ export class StatisticsComponent implements OnInit {
       this.electricityConsumptionForFloorForm.value.cost,
       this.electricityConsumptionForFloorForm.value.energyConsumption,
       this.electricityConsumptionForFloorForm.value.floor,
-      this.electricityConsumptionForFloorForm.value.startDate,
-      this.electricityConsumptionForFloorForm.value.endDate
+      this.getCorrectDate(this.electricityConsumptionForFloorForm.value.startDate),
+      this.getCorrectDate(this.electricityConsumptionForFloorForm.value.endDate)
     )
       .subscribe(response => {
-        console.log(response);
         this.electricityConsumptionForFloorChart = new ElectricityConsumptionForFloor(response);
       }, error => {
-        console.log(error);
       });
   }
 
@@ -104,13 +123,12 @@ export class StatisticsComponent implements OnInit {
       this.electricityConsumptionForSpotForm.value.cost,
       this.electricityConsumptionForSpotForm.value.energyConsumption,
       this.electricityConsumptionForSpotForm.value.spot,
-      this.electricityConsumptionForSpotForm.value.startDate,
-      this.electricityConsumptionForSpotForm.value.endDate
+      this.getCorrectDate(this.electricityConsumptionForSpotForm.value.startDate),
+      this.getCorrectDate(this.electricityConsumptionForSpotForm.value.endDate)
     )
       .subscribe(response => {
-        console.log(response);
+        this.electricityConsumptionForSpotChart = new ElectricityConsumptionForSpot(response);
       }, error => {
-        console.log(error);
       });
   }
 
@@ -120,10 +138,40 @@ export class StatisticsComponent implements OnInit {
       this.dailySalaryForm.value.spots
     )
       .subscribe(response => {
-        console.log(response);
       }, error => {
-        console.log(error);
       });
+  }
+
+  getOccupationTimeAmount(): void {
+    this.statisticsService.getOccupationTimeAmount(
+      this.occupationTimeAmountForm.value.floor,
+      this.getCorrectDate(this.occupationTimeAmountForm.value.startDate),
+      this.getCorrectDate(this.occupationTimeAmountForm.value.endDate)
+    )
+      .subscribe(response => {
+        this.occupationTimeAmountChart = new OccupationTimeAmount(response);
+      }, error => {
+      });
+  }
+
+  getSpotsOccupiedInTimePeriod(): void {
+    this.statisticsService.getSpotsOccupiedInTimePeriod(
+      this.getCorrectDate(this.spotsOccupiedInTimePeriodForm.value.time),
+      this.spotsOccupiedInTimePeriodForm.value.floor
+    )
+      .subscribe(response => {
+        this.spotsOccupiedInTimePeriodData = response;
+      }, error => {
+      });
+  }
+
+  private getCorrectDate(d: string): string {
+    if (!d.length) {
+      return '';
+    }
+    const date = new Date(d);
+    date.setTime(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
+    return new Date(date).toISOString().substr(0, 16).replace('T', ' ');
   }
 
 }

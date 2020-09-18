@@ -1,6 +1,6 @@
 import {Chart} from './chart';
 
-export class ElectricityConsumptionForFloor extends Chart {
+export class ElectricityConsumptionForCarPark extends Chart {
   totalEnergyConsumption: number;
   totalEnergyCost: number;
 
@@ -15,14 +15,12 @@ export class ElectricityConsumptionForFloor extends Chart {
     this.datasets = [
       {data: [], label: 'Energy consumption'},
       {data: [], label: 'Energy cost'},
-      {data: [], label: 'Occupied time'}
     ];
 
-    data.energyPerSpot.forEach(item => {
-      this.datasets[0].data.push(item.energyConsumption);
-      this.datasets[1].data.push(item.energyCost);
-      this.datasets[2].data.push(item.occupiedTime);
-      this.labels.push('Spot ' + item.spot);
+    data.floors.forEach((item, index) => {
+      this.datasets[0].data.push(item.totalEnergyConsumption);
+      this.datasets[1].data.push(item.totalEnergyCost);
+      this.labels.push('Floor ' + index);
     });
   }
 }
