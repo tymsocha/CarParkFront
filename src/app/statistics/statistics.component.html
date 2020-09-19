@@ -1,5 +1,3 @@
-
-
 <mat-accordion class="example-headers-align width-100">
 
   <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
@@ -28,6 +26,30 @@
         <button mat-raised-button color="primary" type="submit" [disabled]="this.dailySalaryForm.invalid">
           Generate
         </button>
+      </div>
+
+      <div *ngIf="this.numberOfEmployeesForFloorsAndTheirDailySalaryData">
+        <mat-list>
+          <mat-list-item>
+            Number of all employees:
+            <strong>&nbsp;{{ this.numberOfEmployeesForFloorsAndTheirDailySalaryData.numberOfAllEmployees}}</strong>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+          <mat-list-item>
+            Number of employees per floor:
+            <strong>&nbsp;{{ this.numberOfEmployeesForFloorsAndTheirDailySalaryData.numberOfEmployeesPerFloor}}</strong>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+          <mat-list-item>
+            Salary of one employee per day:
+            <strong>&nbsp;{{ this.numberOfEmployeesForFloorsAndTheirDailySalaryData.salaryOfOneEmployeePerDay}}</strong>
+            <mat-divider></mat-divider>
+          </mat-list-item>
+          <mat-list-item>
+            Total price to pay per day:
+            <strong>&nbsp;{{ this.numberOfEmployeesForFloorsAndTheirDailySalaryData.totalPriceToPayPerDay}}</strong>
+          </mat-list-item>
+        </mat-list>
       </div>
     </form>
     <mat-action-row>
@@ -79,14 +101,22 @@
     </form>
 
 
-
     <div *ngIf="this.electricityConsumptionForCarParkChart">
       <p>
-        Total energy consumption: <strong>{{this.electricityConsumptionForCarParkChart.totalEnergyConsumption}}</strong>
+
       </p>
       <p>
-        Total energy cost: <strong>{{this.electricityConsumptionForCarParkChart.totalEnergyCost}}</strong>
       </p>
+      <mat-list>
+        <mat-list-item>
+          Total energy consumption:
+          <strong>&nbsp;{{this.electricityConsumptionForCarParkChart.totalEnergyConsumption}}</strong>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+        <mat-list-item>
+          Total energy cost: <strong>&nbsp;{{this.electricityConsumptionForCarParkChart.totalEnergyCost}}</strong>
+        </mat-list-item>
+      </mat-list>
       <div>
         <div style="display: block">
           <canvas baseChart
@@ -154,12 +184,16 @@
     </form>
 
     <div *ngIf="this.electricityConsumptionForFloorChart">
-      <p>
-        Total energy consumption: <strong>{{this.electricityConsumptionForFloorChart.totalEnergyConsumption}}</strong>
-      </p>
-      <p>
-        Total energy cost: <strong>{{this.electricityConsumptionForFloorChart.totalEnergyCost}}</strong>
-      </p>
+      <mat-list>
+        <mat-list-item>
+          Total energy consumption:
+          <strong>&nbsp;{{this.electricityConsumptionForFloorChart.totalEnergyConsumption}}</strong>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+        <mat-list-item>
+          Total energy cost: <strong>&nbsp;{{this.electricityConsumptionForFloorChart.totalEnergyCost}}</strong>
+        </mat-list-item>
+      </mat-list>
       <div>
         <div style="display: block">
           <canvas baseChart
@@ -307,22 +341,10 @@
     </mat-expansion-panel-header>
 
     <form (ngSubmit)="getSpotsOccupiedInTimePeriod()" [formGroup]="this.spotsOccupiedInTimePeriodForm">
-      <p>
-
-      <mat-form-field class="width-100">
-        <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date" [formControl]="time">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <ngx-mat-datetime-picker #picker [showSpinners]="true" [showSeconds]="false"
-                                 [defaultTime]="[8, 0, 0]"
-                                 [stepHour]="1" [stepMinute]="30">
-        </ngx-mat-datetime-picker>
-      </mat-form-field>
-      </p>
-
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Time</mat-label>
-          <input matInput type="datetime-local" formControlName="time" required step="1800">
+          <input matInput type="datetime-local" formControlName="time" required>
         </mat-form-field>
       </p>
       <p class="margin-0">
@@ -339,12 +361,14 @@
     </form>
 
     <mat-list class="spots-list">
-      <mat-list-item *ngFor="let item of this.spotsOccupiedInTimePeriodData">Spot {{item}} </mat-list-item>
+      <mat-list-item *ngFor="let item of this.spotsOccupiedInTimePeriodData">
+        Spot {{item}}
+        <mat-divider></mat-divider>
+      </mat-list-item>
     </mat-list>
 
     <mat-action-row>
       <button mat-button color="accent" (click)="prevStep()">Previous</button>
-      <button mat-button color="primary" (click)="nextStep()">Next</button>
     </mat-action-row>
   </mat-expansion-panel>
 

@@ -11,7 +11,6 @@ export class OccupationTimeAmount extends Chart {
       {data: [], label: 'Occupied time'}
     ];
 
-    console.log('data', data);
     data.forEach(item => {
       this.datasets[0].data.push(item.occupiedTime);
       this.labels.push('Spot ' + item.slotName);

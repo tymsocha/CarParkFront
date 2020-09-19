@@ -59,7 +59,6 @@ export class StatisticsService {
       params = params.set('endDate', endDate);
     }
 
-    console.log('params', params);
     return this.http.get(this.url + 'energyConsumption/floor/' + floor, {params});
   }
 
@@ -106,7 +105,6 @@ export class StatisticsService {
     if (endDate) {
       params = params.set('endDate', endDate);
     }
-    console.log('params', params);
 
     return this.http.get(this.url + 'occupation/floor/' + floor, {params});
   }

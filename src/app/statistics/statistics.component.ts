@@ -7,6 +7,7 @@ import {ElectricityConsumptionForFloor} from '../classes/electricity-consumption
 import {OccupationTimeAmount} from '../classes/occupation-time-amount';
 import {ElectricityConsumptionForCarPark} from '../classes/electricity-consumption-for-car-park';
 import {ElectricityConsumptionForSpot} from '../classes/electricity-consumption-for-spot';
+import {closeCalendar} from '@angular/material/datepicker/testing/datepicker-trigger-harness-base';
 
 @Component({
   selector: 'app-statistics',
@@ -27,6 +28,7 @@ export class StatisticsComponent implements OnInit {
   electricityConsumptionForCarParkChart: ElectricityConsumptionForCarPark;
   electricityConsumptionForSpotChart: ElectricityConsumptionForSpot;
   spotsOccupiedInTimePeriodData: string[];
+  numberOfEmployeesForFloorsAndTheirDailySalaryData;
 
   timeModel;
 
@@ -138,6 +140,7 @@ export class StatisticsComponent implements OnInit {
       this.dailySalaryForm.value.spots
     )
       .subscribe(response => {
+        this.numberOfEmployeesForFloorsAndTheirDailySalaryData = response;
       }, error => {
       });
   }
@@ -155,8 +158,32 @@ export class StatisticsComponent implements OnInit {
   }
 
   getSpotsOccupiedInTimePeriod(): void {
+    const date = new Date(this.spotsOccupiedInTimePeriodForm.value.time);
+    const minutes = date.getMinutes();
+    const hour = date.getHours();
+    if (minutes !== 0 && minutes !== 30) {
+      if (minutes < 16) {
+        date.setMinutes(0);
+      } else if (minutes >= 16 && minutes < 46) {
+        date.setMinutes(30);
+      } else {
+        date.setMinutes(0);
+        date.setHours(hour + 1);
+      }
+
+
+    }
+
+    const correctDate = this.getCorrectDate(date.toISOString());
+    const dateToChange = new Date(correctDate);
+    dateToChange.setTime(this.getTimeZoneOffset(dateToChange));
+
+    this.spotsOccupiedInTimePeriodForm.patchValue({
+      time: dateToChange.toISOString().substr(0, 16)
+    });
+
     this.statisticsService.getSpotsOccupiedInTimePeriod(
-      this.getCorrectDate(this.spotsOccupiedInTimePeriodForm.value.time),
+      correctDate,
       this.spotsOccupiedInTimePeriodForm.value.floor
     )
       .subscribe(response => {
@@ -170,8 +197,12 @@ export class StatisticsComponent implements OnInit {
       return '';
     }
     const date = new Date(d);
-    date.setTime(date.getTime() - date.getTimezoneOffset() * 60 * 1000);
+    date.setTime(this.getTimeZoneOffset(date));
     return new Date(date).toISOString().substr(0, 16).replace('T', ' ');
+  }
+
+  private getTimeZoneOffset(date: Date): number {
+    return date.getTime() - date.getTimezoneOffset() * 60 * 1000;
   }
 
 }
