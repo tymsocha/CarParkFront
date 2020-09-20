@@ -116,7 +116,7 @@ export class StatisticsService {
     let params = new HttpParams()
       .set('timeString', time);
 
-    if (floor) {
+    if (floor || floor === 0) {
       params = params.set('floor', floor.toString(10));
     }
 
