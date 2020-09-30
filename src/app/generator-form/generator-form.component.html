@@ -1,24 +1,34 @@
+<!--Jest to plik w języku html generujący formularz do wpisywania ilości pięter i miejsc na parkingu-->
+
 <div class="ui large form segment">
 
+  <!--Tekst początkowy-->
   <h3 class="ui header">Set number of floors and spots in Parking Lot: </h3>
 
+  <!--Początek formularza-->
   <form (ngSubmit)="submit()" [formGroup]="this.generatorForm">
 
+    <!--Pole tekstowe gdzie należy wpisać liczbę pięter-->
     <div class="form-group">
       <mat-form-field>
         <mat-label>Floors:</mat-label>
-        <input matInput type="number" min="1" name="floors" id="floors" class="floors" formControlName="floors">
+        <!--Walidacja - można tu wpisać tylko liczby w przedziale od 1 do 10 ; Nadanie id i nazw elementom html-->
+        <input matInput type="number" min="1" max="10" name="floors" id="floors" class="floors" formControlName="floors">
       </mat-form-field>
     </div>
 
+    <!--Pole tekstowe gdzie należy wpisać liczbę miejsc-->
     <div class="form-group">
       <mat-form-field>
         <mat-label>Spots:</mat-label>
-        <input matInput type="number" min="1" name="spots" id="spots" class="spots" formControlName="spots">
+        <!--Walidacja - można tu wpisać tylko liczby w przedziale od 1 do 100 ; Nadanie id i nazw elementom html-->
+        <input matInput type="number" min="1" max="100" name="spots" id="spots" class="spots" formControlName="spots">
       </mat-form-field>
     </div>
 
+    <!--Przycisk, który po kliknięciu staje się nieaktywny z tekstem "Loading data..."-->
     <button mat-raised-button color="primary" type="submit" class="uppercase" [disabled]="this.generatorForm.invalid || this.isLoading">
+      <!--Sprawdzenie czy dane się ładują-->
       <span *ngIf="!this.isLoading">Generate</span>
       <span *ngIf="this.isLoading">Loading data...</span>
     </button>

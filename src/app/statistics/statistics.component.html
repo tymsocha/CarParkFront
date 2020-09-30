@@ -1,15 +1,26 @@
+<!--W tym htmlu są wykorzystane typowe dla angulara metody jak np. *ngFor i *ngIf jak również biblioteka Material-->
+<!--O bibliotece material więcej na https://material.angular.io/ -->
+
+<!--mat-accordion jest to div, w którym zawarte są rozwijane elementy-->
 <mat-accordion class="example-headers-align width-100">
 
+  <!--mat-expansion-panel jest to element rozwijany-->
+  <!--zmienna step zostaje ustawiona na 0-->
   <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+    <!--Header dla całego panelu-->
     <mat-expansion-panel-header>
+      <!--Tytuł paneelu-->
       <mat-panel-title>
         Number of employees for floors and their daily salary
       </mat-panel-title>
     </mat-expansion-panel-header>
 
+    <!--Ciało panelu-->
+    <!--Formularz w którym podaje sie dane do wywołania statystyk dla kosztów eksploatacji parkingu (liczba pracowników na piętro i wypłata dla jednego pracownika)-->
     <form (ngSubmit)="getNumberOfEmployeesForFloorsAndTheirDailySalary()" [formGroup]="this.dailySalaryForm">
       <p class="margin-0">
         <mat-form-field class="width-100">
+          <!--Stawka godzinowa dla pracownika-->
           <mat-label>Hourly salary</mat-label>
           <input matInput type="number" min="0" formControlName="hourlySalary" required>
           <span matSuffix>zł</span>
@@ -17,68 +28,94 @@
       </p>
       <p class="margin-0">
         <mat-form-field class="width-100">
+          <!--Liczba miejsc parkingowych do obsłużenia przypadająca na jednego pracownika-->
           <mat-label>Spots</mat-label>
           <input matInput type="number" min="1" formControlName="spots" required>
         </mat-form-field>
       </p>
 
+      <!--Przycisk do generowania statystyk-->
+      <!--Możliwy do wciśnięcia po wypełnieniu wymaganych pól formularza-->
       <div class="d-flex flex-end">
         <button mat-raised-button color="primary" type="submit" [disabled]="this.dailySalaryForm.invalid">
           Generate
         </button>
       </div>
 
+      <!--Dane wywołane tylko wtedy gdy dana klasa nie jest nullem-->
       <div *ngIf="this.numberOfEmployeesForFloorsAndTheirDailySalaryData">
+        <!--Lista informacji na temat eksploatacji parkingu-->
         <mat-list>
+          <!--Element listy
+              <STRONG> pogrubiona czcionka
+              <mat-divider> - kolejna linijka-->
           <mat-list-item>
             Number of all employees:
             <strong>&nbsp;{{ this.numberOfEmployeesForFloorsAndTheirDailySalaryData.numberOfAllEmployees}}</strong>
             <mat-divider></mat-divider>
           </mat-list-item>
+          <!--Element listy
+              <STRONG> pogrubiona czcionka
+              <mat-divider> - kolejna linijka-->
           <mat-list-item>
             Number of employees per floor:
             <strong>&nbsp;{{ this.numberOfEmployeesForFloorsAndTheirDailySalaryData.numberOfEmployeesPerFloor}}</strong>
             <mat-divider></mat-divider>
           </mat-list-item>
+          <!--Element listy
+              <STRONG> pogrubiona czcionka
+              <mat-divider> - kolejna linijka-->
           <mat-list-item>
             Salary of one employee per day:
-            <strong>&nbsp;{{ this.numberOfEmployeesForFloorsAndTheirDailySalaryData.salaryOfOneEmployeePerDay}}</strong>
+            <strong>&nbsp;{{ this.numberOfEmployeesForFloorsAndTheirDailySalaryData.salaryOfOneEmployeePerDay}} PLN</strong>
             <mat-divider></mat-divider>
           </mat-list-item>
+          <!--Element listy
+              <STRONG> pogrubiona czcionka-->
           <mat-list-item>
             Total price to pay per day:
-            <strong>&nbsp;{{ this.numberOfEmployeesForFloorsAndTheirDailySalaryData.totalPriceToPayPerDay}}</strong>
+            <strong>&nbsp;{{ this.numberOfEmployeesForFloorsAndTheirDailySalaryData.totalPriceToPayPerDay}} PLN</strong>
           </mat-list-item>
         </mat-list>
       </div>
     </form>
+    <!--Wiersz, w którym znajduje się przycisk przekierowujący do następnego formularza ze statystykami-->
     <mat-action-row>
       <button mat-button color="primary" (click)="nextStep()">Next</button>
     </mat-action-row>
   </mat-expansion-panel>
 
-
+  <!--mat-expansion-panel jest to element rozwijany-->
+  <!--zmienna step zostaje ustawiona na 1-->
   <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+    <!--Header dla całego panelu-->
     <mat-expansion-panel-header>
+      <!--Tytuł panelu-->
       <mat-panel-title>
         Electricity consumption for car park
       </mat-panel-title>
     </mat-expansion-panel-header>
 
+    <!--Ciało panelu-->
+    <!--Formularz z polami do wypełnienia przez użytkownika dla konsumpcji energii, dla całego parkingu-->
     <form (ngSubmit)="getElectricityConsumptionForCarPark()" [formGroup]="this.electricityConsumptionForCarParkForm">
       <p class="margin-0">
+        <!--Pole tekstowe z ograniczeniami wprowadzajęce koszt prądu-->
         <mat-form-field class="width-100">
           <mat-label>Cost</mat-label>
           <input matInput type="number" min="0" formControlName="cost" required>
-          <span matSuffix>zł</span>
+          <span matSuffix>zł/kWh</span>
         </mat-form-field>
       </p>
       <p class="margin-0">
+        <!--Pole tekstowe z ograniczeniami wprowadzajęce zużycie prądu-->
         <mat-form-field class="width-100">
           <mat-label>Energy consumption</mat-label>
           <input matInput type="number" min="0" formControlName="energyConsumption" required>
+          <span matSuffix>kWh</span>
         </mat-form-field>
       </p>
+      <!--Pola wyznaczajęce okres czasowy od kiedy do kiedy należy brać pod uwagę czas, w którym miejsca były zajęte-->
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Start date</mat-label>
@@ -92,6 +129,8 @@
         </mat-form-field>
       </p>
 
+      <!--Przycisk do generowania statystyk-->
+      <!--Możliwy do wciśnięcia po wypełnieniu wymaganych pól formularza-->
       <div class="d-flex flex-end">
         <button mat-raised-button color="primary" type="submit"
                 [disabled]="this.electricityConsumptionForCarParkForm.invalid">
@@ -100,25 +139,34 @@
       </div>
     </form>
 
-
+    <!--Wykres statystyk zużycia energii dla całego parkingu
+        Wyświetli się tylko wtedy jeśli będą wprowadzone poprawne dane do formularza-->
     <div *ngIf="this.electricityConsumptionForCarParkChart">
       <p>
 
       </p>
       <p>
       </p>
+      <!--Lista z całkowitym zużyciem prądu i całkowitym kosztem-->
       <mat-list>
+        <!--Element listy, <STRONG> pogrubiona czcionka-->
+        <!--Zużycie-->
         <mat-list-item>
           Total energy consumption:
-          <strong>&nbsp;{{this.electricityConsumptionForCarParkChart.totalEnergyConsumption}}</strong>
+          <strong>&nbsp;{{this.electricityConsumptionForCarParkChart.totalEnergyConsumption}} kWh</strong>
           <mat-divider></mat-divider>
         </mat-list-item>
+        <!--Koszt-->
+        <!--Element listy, <STRONG> pogrubiona czcionka-->
         <mat-list-item>
-          Total energy cost: <strong>&nbsp;{{this.electricityConsumptionForCarParkChart.totalEnergyCost}}</strong>
+          Total energy cost:
+          <strong>&nbsp;{{this.electricityConsumptionForCarParkChart.totalEnergyCost}} PLN</strong>
         </mat-list-item>
       </mat-list>
+      <!--Wykres z danymi-->
       <div>
         <div style="display: block">
+          <!--div <canvas> pochodzi z biblioteki ng2-charts, w nim określane są jakie dane powinny być wyświetlane-->
           <canvas baseChart
                   [datasets]="this.electricityConsumptionForCarParkChart.datasets"
                   [labels]="this.electricityConsumptionForCarParkChart.labels"
@@ -129,39 +177,51 @@
       </div>
     </div>
 
+    <!--Wiersz, w którym znajdują się przycisk przekierowujące do następnego lub poprzedniego formularza ze statystykami-->
     <mat-action-row>
       <button mat-button color="accent" (click)="prevStep()">Previous</button>
       <button mat-button color="primary" (click)="nextStep()">Next</button>
     </mat-action-row>
   </mat-expansion-panel>
 
+  <!--mat-expansion-panel jest to element rozwijany-->
+  <!--zmienna step zostaje ustawiona na 2-->
   <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+    <!--Header dla całego panelu-->
     <mat-expansion-panel-header>
+      <!--Tytuł panelu-->
       <mat-panel-title>
         Electricity consumption for floor
       </mat-panel-title>
     </mat-expansion-panel-header>
 
+    <!--Ciało panelu-->
+    <!--Formularz z polami do wypełnienia przez użytkownika dla konsumpcji energii, dla danego piętra-->
     <form (ngSubmit)="getElectricityConsumptionForFloor()" [formGroup]="this.electricityConsumptionForFloorForm">
       <p class="margin-0">
+        <!--Pole tekstowe z ograniczeniami wprowadzajęce koszt prądu-->
         <mat-form-field class="width-100">
           <mat-label>Cost</mat-label>
           <input matInput type="number" min="0" formControlName="cost" required>
-          <span matSuffix>zł</span>
+          <span matSuffix>zł/kWh</span>
         </mat-form-field>
       </p>
       <p class="margin-0">
+        <!--Pole tekstowe z ograniczeniami wprowadzajęce zużycie prądu-->
         <mat-form-field class="width-100">
           <mat-label>Energy consumption</mat-label>
           <input matInput type="number" min="0" formControlName="energyConsumption" required>
+          <span matSuffix>kWh</span>
         </mat-form-field>
       </p>
       <p class="margin-0">
+        <!--Pole tekstowe z ograniczeniami wprowadzajęce numer piętra-->
         <mat-form-field class="width-100">
           <mat-label>Floor</mat-label>
           <input matInput type="number" min="0" formControlName="floor" required>
         </mat-form-field>
       </p>
+      <!--Pola wyznaczajęce okres czasowy od kiedy do kiedy należy brać pod uwagę czas, w którym miejsca były zajęte-->
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Start date</mat-label>
@@ -175,6 +235,8 @@
         </mat-form-field>
       </p>
 
+      <!--Przycisk do generowania statystyk-->
+      <!--Możliwy do wciśnięcia po wypełnieniu wymaganych pól formularza-->
       <div class="d-flex flex-end">
         <button mat-raised-button color="primary" type="submit"
                 [disabled]="this.electricityConsumptionForFloorForm.invalid">
@@ -183,19 +245,23 @@
       </div>
     </form>
 
+    <!--Wykres statystyk zużycia energii dla danego piętra
+        Wyświetli się tylko wtedy jeśli będą wprowadzone poprawne dane do formularza-->
     <div *ngIf="this.electricityConsumptionForFloorChart">
       <mat-list>
         <mat-list-item>
           Total energy consumption:
-          <strong>&nbsp;{{this.electricityConsumptionForFloorChart.totalEnergyConsumption}}</strong>
+          <strong>&nbsp;{{this.electricityConsumptionForFloorChart.totalEnergyConsumption}} kWh</strong>
           <mat-divider></mat-divider>
         </mat-list-item>
         <mat-list-item>
-          Total energy cost: <strong>&nbsp;{{this.electricityConsumptionForFloorChart.totalEnergyCost}}</strong>
+          Total energy cost: <strong>&nbsp;{{this.electricityConsumptionForFloorChart.totalEnergyCost}} PLN</strong>
         </mat-list-item>
       </mat-list>
+      <!--Wykres z danymi-->
       <div>
         <div style="display: block">
+          <!--div <canvas> pochodzi z biblioteki ng2-charts, w nim określane są jakie dane powinny być wyświetlane-->
           <canvas baseChart
                   [datasets]="this.electricityConsumptionForFloorChart.datasets"
                   [labels]="this.electricityConsumptionForFloorChart.labels"
@@ -206,40 +272,51 @@
       </div>
     </div>
 
+    <!--Wiersz, w którym znajdują się przycisk przekierowujące do następnego lub poprzedniego formularza ze statystykami-->
     <mat-action-row>
       <button mat-button color="accent" (click)="prevStep()">Previous</button>
       <button mat-button color="primary" (click)="nextStep()">Next</button>
     </mat-action-row>
   </mat-expansion-panel>
 
-
+  <!--mat-expansion-panel jest to element rozwijany-->
+  <!--zmienna step zostaje ustawiona na 3-->
   <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+    <!--Header dla całego panelu-->
     <mat-expansion-panel-header>
+      <!--Tytuł panelu-->
       <mat-panel-title>
         Electricity consumption for spot
       </mat-panel-title>
     </mat-expansion-panel-header>
 
+    <!--Ciało panelu-->
+    <!--Formularz z polami do wypełnienia przez użytkownika dla konsumpcji energii, dla danego miejsca-->
     <form (ngSubmit)="getElectricityConsumptionForSpot()" [formGroup]="this.electricityConsumptionForSpotForm">
       <p class="margin-0">
+        <!--Pole tekstowe z ograniczeniami wprowadzajęce koszt prądu-->
         <mat-form-field class="width-100">
           <mat-label>Cost</mat-label>
           <input matInput type="number" min="0" formControlName="cost" required>
-          <span matSuffix>zł</span>
+          <span matSuffix>zł/kWh</span>
         </mat-form-field>
       </p>
       <p class="margin-0">
+        <!--Pole tekstowe z ograniczeniami wprowadzajęce zużycie prądu-->
         <mat-form-field class="width-100">
           <mat-label>Energy consumption</mat-label>
           <input matInput type="number" min="0" formControlName="energyConsumption" required>
+          <span matSuffix>kWh</span>
         </mat-form-field>
       </p>
+      <!--Pole tekstowe z ograniczeniami wprowadzajęce numer miejsca-->
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Spot name</mat-label>
           <input matInput type="text" formControlName="spot" required>
         </mat-form-field>
       </p>
+      <!--Pola wyznaczajęce okres czasowy od kiedy do kiedy należy brać pod uwagę czas, w którym miejsca były zajęte-->
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Start date</mat-label>
@@ -253,6 +330,8 @@
         </mat-form-field>
       </p>
 
+      <!--Przycisk do generowania statystyk-->
+      <!--Możliwy do wciśnięcia po wypełnieniu wymaganych pól formularza-->
       <div class="d-flex flex-end">
         <button mat-raised-button color="primary" type="submit"
                 [disabled]="this.electricityConsumptionForSpotForm.invalid">
@@ -261,9 +340,13 @@
       </div>
     </form>
 
+    <!--Wykres statystyk zużycia energii dla danego miejsca
+       Wyświetli się tylko wtedy jeśli będą wprowadzone poprawne dane do formularza-->
     <div *ngIf="this.electricityConsumptionForSpotChart">
+      <!--Wykres z danymi-->
       <div>
         <div style="display: block">
+          <!--div <canvas> pochodzi z biblioteki ng2-charts, w nim określane są jakie dane powinny być wyświetlane-->
           <canvas baseChart
                   [datasets]="this.electricityConsumptionForSpotChart.datasets"
                   [labels]="this.electricityConsumptionForSpotChart.labels"
@@ -274,26 +357,35 @@
       </div>
     </div>
 
+    <!--Wiersz, w którym znajdują się przycisk przekierowujące do następnego lub poprzedniego formularza ze statystykami-->
     <mat-action-row>
       <button mat-button color="accent" (click)="prevStep()">Previous</button>
       <button mat-button color="primary" (click)="nextStep()">Next</button>
     </mat-action-row>
   </mat-expansion-panel>
 
+  <!--mat-expansion-panel jest to element rozwijany-->
+  <!--zmienna step zostaje ustawiona na 4-->
   <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+    <!--Header dla całego panelu-->
     <mat-expansion-panel-header>
+      <!--Tytuł panelu-->
       <mat-panel-title>
         Occupation time for floor
       </mat-panel-title>
     </mat-expansion-panel-header>
 
+    <!--Ciało panelu-->
+    <!--Formularz z polami do wypełnienia przez użytkownika dla czasu przez który dane miejsce było zajęte-->
     <form (ngSubmit)="getOccupationTimeAmount()" [formGroup]="this.occupationTimeAmountForm">
+      <!--Pole wyznaczające numer piętra-->
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Floor</mat-label>
           <input matInput type="number" min="0" formControlName="floor" required>
         </mat-form-field>
       </p>
+      <!--Pola wyznaczajęce okres czasowy od kiedy do kiedy należy brać pod uwagę czas, w którym miejsca były zajęte-->
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Start date</mat-label>
@@ -307,6 +399,8 @@
         </mat-form-field>
       </p>
 
+      <!--Przycisk do generowania statystyk-->
+      <!--Możliwy do wciśnięcia po wypełnieniu wymaganych pól formularza-->
       <div class="d-flex flex-end">
         <button mat-raised-button color="primary" type="submit" [disabled]="this.occupationTimeAmountForm.invalid">
           Generate
@@ -314,9 +408,13 @@
       </div>
     </form>
 
+    <!--Wykres statystyk czasu przez jaki miejsca były okupowane
+       Wyświetli się tylko wtedy jeśli będą wprowadzone poprawne dane do formularza-->
     <div *ngIf="this.occupationTimeAmountChart">
+      <!--Wykres z danymi-->
       <div>
         <div style="display: block">
+          <!--div <canvas> pochodzi z biblioteki ng2-charts, w nim określane są jakie dane powinny być wyświetlane-->
           <canvas baseChart
                   [datasets]="this.occupationTimeAmountChart.datasets"
                   [labels]="this.occupationTimeAmountChart.labels"
@@ -327,32 +425,43 @@
       </div>
     </div>
 
+    <!--Wiersz, w którym znajdują się przycisk przekierowujące do następnego lub poprzedniego formularza ze statystykami-->
     <mat-action-row>
       <button mat-button color="accent" (click)="prevStep()">Previous</button>
       <button mat-button color="primary" (click)="nextStep()">Next</button>
     </mat-action-row>
   </mat-expansion-panel>
 
+  <!--mat-expansion-panel jest to element rozwijany-->
+  <!--zmienna step zostaje ustawiona na 5-->
   <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+    <!--Header dla całego panelu-->
     <mat-expansion-panel-header>
+      <!--Tytuł panelu-->
       <mat-panel-title>
         Occupied slots in time
       </mat-panel-title>
     </mat-expansion-panel-header>
 
+    <!--Ciało panelu-->
+    <!--Formularz z polami do wypełnienia przez użytkownika dla listy zajętych miejsc w danym czasie-->
     <form (ngSubmit)="getSpotsOccupiedInTimePeriod()" [formGroup]="this.spotsOccupiedInTimePeriodForm">
+      <!--Pole wprowadzające date i godzine, w której należy szukać zajętych miejsc-->
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Time</mat-label>
           <input matInput type="datetime-local" formControlName="time" required>
         </mat-form-field>
       </p>
+      <!--Pole wyznaczające numer piętra-->
       <p class="margin-0">
         <mat-form-field class="width-100">
           <mat-label>Floor</mat-label>
           <input matInput type="number" min="0" formControlName="floor">
         </mat-form-field>
       </p>
+      <!--Przycisk do generowania statystyk-->
+      <!--Możliwy do wciśnięcia po wypełnieniu wymaganych pól formularza-->
       <div class="d-flex flex-end">
         <button mat-raised-button color="primary" type="submit" [disabled]="this.spotsOccupiedInTimePeriodForm.invalid">
           Generate
@@ -360,6 +469,7 @@
       </div>
     </form>
 
+    <!--Lista wypisująca zajęte miejsca o danej godzinie -->
     <mat-list class="spots-list">
       <mat-list-item *ngFor="let item of this.spotsOccupiedInTimePeriodData">
         Spot {{item}}
@@ -367,10 +477,11 @@
       </mat-list-item>
     </mat-list>
 
+    <!--Wiersz, w którym znajduje się przycisk przekierowujący do poprzedniego formularza ze statystykami-->
     <mat-action-row>
       <button mat-button color="accent" (click)="prevStep()">Previous</button>
     </mat-action-row>
   </mat-expansion-panel>
 
-
+<!--Zamknięcie rozwijanych paneli-->
 </mat-accordion>

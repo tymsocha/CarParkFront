@@ -1,18 +1,20 @@
 import {Chart} from './chart';
 
+//Klasa pokazująca wykres zużycia energii dla jednego miejsca, dziedzicząca po klasie Chart
 export class ElectricityConsumptionForSpot extends Chart {
 
-
+  //Konstruktor klasy, czyli metoda wywoływana przy tworzeniu obiektu na podstawie tej klasy
   constructor(data) {
     super();
     this.prepareDatasets(data);
   }
 
+  //Metoda przygotowywująca dane do wyświetlenie na wykresie
   private prepareDatasets(data): void {
     this.datasets = [
-      {data: [], label: 'Energy consumption'},
-      {data: [], label: 'Energy cost'},
-      {data: [], label: 'Occupied time'}
+      {data: [], label: 'Energy consumption in kWh'},
+      {data: [], label: 'Energy cost in PLN'},
+      {data: [], label: 'Occupied time in hours'}
     ];
 
     this.datasets[0].data.push(data.energyConsumption);

@@ -2,6 +2,8 @@ import { TestBed } from '@angular/core/testing';
 
 import { StatisticsGuard } from './statistics.guard';
 
+// Plik z testami jednostkowymi automatycznie generowany przez Angular CLI
+// Każdy komponent i plik o rozszerzeniu .ts posiada odpowiadający mu plik z testami jednostkowymi
 describe('StatisticsGuard', () => {
   let guard: StatisticsGuard;
 

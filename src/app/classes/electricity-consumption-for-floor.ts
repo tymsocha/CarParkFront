@@ -1,9 +1,11 @@
 import {Chart} from './chart';
 
+//Klasa pokazująca wykres zużycia energii dla piętra, dziedzicząca po klasie Chart
 export class ElectricityConsumptionForFloor extends Chart {
   totalEnergyConsumption: number;
   totalEnergyCost: number;
 
+  //Konstruktor klasy, czyli metoda wywoływana przy tworzeniu obiektu na podstawie tej klasy
   constructor(data) {
     super();
     this.prepareDatasets(data);
@@ -11,11 +13,12 @@ export class ElectricityConsumptionForFloor extends Chart {
     this.totalEnergyCost = data.totalEnergyCost;
   }
 
+  //Metoda przygotowywująca dane do wyświetlenie na wykresie
   private prepareDatasets(data): void {
     this.datasets = [
-      {data: [], label: 'Energy consumption'},
-      {data: [], label: 'Energy cost'},
-      {data: [], label: 'Occupied time'}
+      {data: [], label: 'Energy consumption in kWh'},
+      {data: [], label: 'Energy cost in PLN'},
+      {data: [], label: 'Occupied time in hours'}
     ];
 
     data.energyPerSpot.forEach(item => {

@@ -9,12 +9,15 @@ import {ElectricityConsumptionForCarPark} from '../classes/electricity-consumpti
 import {ElectricityConsumptionForSpot} from '../classes/electricity-consumption-for-spot';
 import {closeCalendar} from '@angular/material/datepicker/testing/datepicker-trigger-harness-base';
 
+//Jest to Komponent angulara, który łączy elementy html (templateUrl), css (styleUrl) i kod typescript, który poswstał na bazie JavaScriptu
 @Component({
   selector: 'app-statistics',
   templateUrl: './statistics.component.html',
   styleUrls: ['./statistics.component.css']
 })
 export class StatisticsComponent implements OnInit {
+  //Pola komponentu -  większość to pola typu FormGroup czytające wprowadzone przez użytkownika dane z formularza html w tym komponencie
+  //Dalej są pola, które są utworzonymi klasami z folderu classes
   step = 0;
   dailySalaryForm: FormGroup;
   electricityConsumptionForCarParkForm: FormGroup;
@@ -30,15 +33,16 @@ export class StatisticsComponent implements OnInit {
   spotsOccupiedInTimePeriodData: string[];
   numberOfEmployeesForFloorsAndTheirDailySalaryData;
 
-  timeModel;
-
+  //Konstruktor klasy, czyli metoda wywoływana przy tworzeniu obiektu na podstawie tej klasy
   constructor(private statisticsService: StatisticsService) {
   }
 
+  //Metoda ta zostaje wywołana przy inicjacji danego komponentu
   ngOnInit(): void {
     this.generateForms();
   }
 
+  //Metoda generująca formularze, w których użytkownik wpisuje dane, które są w późnieszych krokach przekazywane przez serwis do serwerowych endpointów
   generateForms(): void {
     this.dailySalaryForm = new FormGroup({
       hourlySalary: new FormControl('', Validators.required),
@@ -80,18 +84,23 @@ export class StatisticsComponent implements OnInit {
     });
   }
 
+  //Metoda, która ustawia zmienną step na zadaną wartość
   setStep(index: number): void {
     this.step = index;
   }
 
+  //Metoda inkrementująca zmienną step
   nextStep(): void {
     this.step++;
   }
 
+  //Metoda dekrementująca zmienną step
   prevStep(): void {
     this.step--;
   }
 
+  //Metoda, wysyłająca zapytanie do serwera poprzez serwis StatisticsService o dane, a następnie wyświetla je na wykresach
+  //Metoda wyświetlająca wykres zużycia energii dla całego parkingu
   getElectricityConsumptionForCarPark(): void {
     this.statisticsService.getElectricityConsumptionForCarPark(
       this.electricityConsumptionForCarParkForm.value.cost,
@@ -105,6 +114,8 @@ export class StatisticsComponent implements OnInit {
       });
   }
 
+  //Metoda, wysyłająca zapytanie do serwera poprzez serwis StatisticsService o dane, a następnie wyświetla je na wykresach
+  //Metoda wyświetlająca wykres zużycia energii dla danego piętra
   getElectricityConsumptionForFloor(): void {
     this.statisticsService.getElectricityConsumptionForFloor(
       this.electricityConsumptionForFloorForm.value.cost,
@@ -119,7 +130,8 @@ export class StatisticsComponent implements OnInit {
       });
   }
 
-
+  //Metoda, wysyłająca zapytanie do serwera poprzez serwis StatisticsService o dane, a następnie wyświetla je na wykresach
+  //Metoda wyświetlająca wykres zużycia energii dla danego miejsca
   getElectricityConsumptionForSpot(): void {
     this.statisticsService.getElectricityConsumptionForSpot(
       this.electricityConsumptionForSpotForm.value.cost,
@@ -134,10 +146,12 @@ export class StatisticsComponent implements OnInit {
       });
   }
 
+  //Metoda, wysyłająca zapytanie do serwera poprzez serwis StatisticsService o dane, a następnie wyświetla je na wykresach
+  //Metoda wyświetlająca informacje o kosztach utrzymania parkingu
   getNumberOfEmployeesForFloorsAndTheirDailySalary(): void {
     this.statisticsService.getNumberOfEmployeesForFloorsAndTheirDailySalary(
-      this.dailySalaryForm.value.hourlySalary,
-      this.dailySalaryForm.value.spots
+      this.dailySalaryForm.value.spots,
+      this.dailySalaryForm.value.hourlySalary
     )
       .subscribe(response => {
         this.numberOfEmployeesForFloorsAndTheirDailySalaryData = response;
@@ -145,6 +159,8 @@ export class StatisticsComponent implements OnInit {
       });
   }
 
+  //Metoda, wysyłająca zapytanie do serwera poprzez serwis StatisticsService o dane, a następnie wyświetla je na wykresach
+  //Metoda wyświetlająca wykres czasu przez jaki dane miejsce było zajęte
   getOccupationTimeAmount(): void {
     this.statisticsService.getOccupationTimeAmount(
       this.occupationTimeAmountForm.value.floor,
@@ -157,6 +173,8 @@ export class StatisticsComponent implements OnInit {
       });
   }
 
+  //Metoda, wysyłająca zapytanie do serwera poprzez serwis StatisticsService o dane, a następnie wyświetla je na wykresach
+  //Metoda wyświetlająca listę miejsc zajętych w danym momencie
   getSpotsOccupiedInTimePeriod(): void {
     const date = new Date(this.spotsOccupiedInTimePeriodForm.value.time);
     const minutes = date.getMinutes();
@@ -170,8 +188,6 @@ export class StatisticsComponent implements OnInit {
         date.setMinutes(0);
         date.setHours(hour + 1);
       }
-
-
     }
 
     const correctDate = this.getCorrectDate(date.toISOString());
@@ -192,6 +208,7 @@ export class StatisticsComponent implements OnInit {
       });
   }
 
+  //Metoda, zwracająca stringa z datą w formacie, w którym serwer ją odczyta (RRRR-MM-DD HH:SS)
   private getCorrectDate(d: string): string {
     if (!d.length) {
       return '';

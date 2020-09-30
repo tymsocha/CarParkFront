@@ -2,6 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 
+// Plik z testami jednostkowymi automatycznie generowany przez Angular CLI
+// Każdy komponent i plik o rozszerzeniu .ts posiada odpowiadający mu plik z testami jednostkowymi
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
