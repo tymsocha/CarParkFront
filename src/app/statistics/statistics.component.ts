@@ -35,7 +35,8 @@ export class StatisticsComponent implements OnInit {
   spotsOccupiedInTimePeriodData: string[];
   numberOfEmployeesForFloorsAndTheirDailySalaryData;
   numberOfClosedFloorAndPeriodOfClosure;
-  conclusionResponse;
+  floorsAverageOccupationTime;
+  carParkAverageOccupationTime;
 
   //Konstruktor klasy, czyli metoda wywoływana przy tworzeniu obiektu na podstawie tej klasy
   constructor(private statisticsService: StatisticsService) {
@@ -231,9 +232,15 @@ export class StatisticsComponent implements OnInit {
   }
 
   conclude(): void {
-    this.statisticsService.conclude().subscribe(
+    this.statisticsService.getFloorsAverageOccupationTime().subscribe(
       response => {
-        this.conclusionResponse = response;
+        this.floorsAverageOccupationTime = response;
+      }
+    );
+
+    this.statisticsService.getCarParkAverageOccupationTime().subscribe(
+      response => {
+        this.carParkAverageOccupationTime = response;
       }
     );
   }

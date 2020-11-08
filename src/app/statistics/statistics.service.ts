@@ -146,8 +146,11 @@ export class StatisticsService {
     return this.http.post(this.url + 'close/' + floor, params);
   }
 
-  public conclude(): Observable<any> {
-    return this.http.get(this.url + 'conclusion');
+  public getFloorsAverageOccupationTime(): Observable<any> {
+    return this.http.get(this.url + 'floorsAverage');
   }
 
+  public getCarParkAverageOccupationTime(): Observable<any> {
+    return this.http.get(this.url + 'carParkAverage');
+  }
 }
