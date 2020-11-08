@@ -4,9 +4,74 @@
 <!--mat-accordion jest to div, w którym zawarte są rozwijane elementy-->
 <mat-accordion class="example-headers-align width-100">
 
+  <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Close the floor
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <!--Ciało panelu-->
+    <!--Formularz z polami do wypełnienia przez użytkownika dla czasu przez który dane miejsce było zajęte-->
+    <form (ngSubmit)="closeTheFloor()" [formGroup]="this.floorClosure">
+      <!--Pole wyznaczające numer piętra-->
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Floor</mat-label>
+          <input matInput type="number" min="0" formControlName="floor" required>
+        </mat-form-field>
+      </p>
+      <!--Pola wyznaczajęce okres czasowy od kiedy do kiedy należy brać pod uwagę czas, w którym miejsca były zajęte-->
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>Start date</mat-label>
+          <input matInput type="datetime-local" formControlName="startDate" required>
+        </mat-form-field>
+      </p>
+      <p class="margin-0">
+        <mat-form-field class="width-100">
+          <mat-label>End date</mat-label>
+          <input matInput type="datetime-local" formControlName="endDate" required>
+        </mat-form-field>
+      </p>
+
+      <!--Przycisk do generowania statystyk-->
+      <!--Możliwy do wciśnięcia po wypełnieniu wymaganych pól formularza-->
+      <div class="d-flex flex-end">
+        <button mat-raised-button color="primary" type="submit" [disabled]="this.floorClosure.invalid">
+          Generate
+        </button>
+      </div>
+
+      <!--Dane wywołane tylko wtedy gdy dana klasa nie jest nullem-->
+      <div *ngIf="this.numberOfClosedFloorAndPeriodOfClosure">
+        <mat-list>
+          <mat-list-item>
+            Floor number
+            {{ this.numberOfClosedFloorAndPeriodOfClosure.floor}}
+            was closed on
+             {{ this.numberOfClosedFloorAndPeriodOfClosure.startDateString}}
+            at
+             {{ this.numberOfClosedFloorAndPeriodOfClosure.startHourString}}
+            and reopened on
+             {{ this.numberOfClosedFloorAndPeriodOfClosure.endDateString}}
+            at
+             {{ this.numberOfClosedFloorAndPeriodOfClosure.endHourString}}.
+          </mat-list-item>
+        </mat-list>
+      </div>
+
+    </form>
+
+    <mat-action-row>
+      <button mat-button color="primary" (click)="nextStep()">Next</button>
+    </mat-action-row>
+
+  </mat-expansion-panel>
+
   <!--mat-expansion-panel jest to element rozwijany-->
   <!--zmienna step zostaje ustawiona na 0-->
-  <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+  <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
     <!--Header dla całego panelu-->
     <mat-expansion-panel-header>
       <!--Tytuł paneelu-->
@@ -81,13 +146,14 @@
     </form>
     <!--Wiersz, w którym znajduje się przycisk przekierowujący do następnego formularza ze statystykami-->
     <mat-action-row>
+      <button mat-button color="accent" (click)="prevStep()">Previous</button>
       <button mat-button color="primary" (click)="nextStep()">Next</button>
     </mat-action-row>
   </mat-expansion-panel>
 
   <!--mat-expansion-panel jest to element rozwijany-->
   <!--zmienna step zostaje ustawiona na 1-->
-  <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle>
+  <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
     <!--Header dla całego panelu-->
     <mat-expansion-panel-header>
       <!--Tytuł panelu-->
@@ -186,7 +252,7 @@
 
   <!--mat-expansion-panel jest to element rozwijany-->
   <!--zmienna step zostaje ustawiona na 2-->
-  <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle>
+  <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
     <!--Header dla całego panelu-->
     <mat-expansion-panel-header>
       <!--Tytuł panelu-->
@@ -281,7 +347,7 @@
 
   <!--mat-expansion-panel jest to element rozwijany-->
   <!--zmienna step zostaje ustawiona na 3-->
-  <mat-expansion-panel [expanded]="step === 3" (opened)="setStep(3)" hideToggle>
+  <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
     <!--Header dla całego panelu-->
     <mat-expansion-panel-header>
       <!--Tytuł panelu-->
@@ -366,7 +432,7 @@
 
   <!--mat-expansion-panel jest to element rozwijany-->
   <!--zmienna step zostaje ustawiona na 4-->
-  <mat-expansion-panel [expanded]="step === 4" (opened)="setStep(4)" hideToggle>
+  <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
     <!--Header dla całego panelu-->
     <mat-expansion-panel-header>
       <!--Tytuł panelu-->
@@ -434,7 +500,7 @@
 
   <!--mat-expansion-panel jest to element rozwijany-->
   <!--zmienna step zostaje ustawiona na 5-->
-  <mat-expansion-panel [expanded]="step === 5" (opened)="setStep(5)" hideToggle>
+  <mat-expansion-panel [expanded]="step === 6" (opened)="setStep(6)" hideToggle>
     <!--Header dla całego panelu-->
     <mat-expansion-panel-header>
       <!--Tytuł panelu-->
@@ -481,6 +547,39 @@
     <mat-action-row>
       <button mat-button color="accent" (click)="prevStep()">Previous</button>
     </mat-action-row>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel [expanded]="step === 7" (opened)="setStep(7)" hideToggle>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Conclude
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <!--Ciało panelu-->
+    <!--Formularz z polami do wypełnienia przez użytkownika dla czasu przez który dane miejsce było zajęte-->
+    <form (ngSubmit)="conclude()">
+
+      <div class="d-flex flex-center">
+        <button mat-raised-button color="primary" type="submit">
+          Generate conclusion
+        </button>
+      </div>
+
+      <!--Dane wywołane tylko wtedy gdy dana klasa nie jest nullem-->
+      <div *ngIf="this.conclusionResponse">
+        <mat-list>
+          <mat-list-item>
+
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </form>
+
+    <mat-action-row>
+      <button mat-button color="accent" (click)="prevStep()">Previous</button>
+    </mat-action-row>
+
   </mat-expansion-panel>
 
 <!--Zamknięcie rozwijanych paneli-->

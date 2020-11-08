@@ -8,6 +8,7 @@ import {OccupationTimeAmount} from '../classes/occupation-time-amount';
 import {ElectricityConsumptionForCarPark} from '../classes/electricity-consumption-for-car-park';
 import {ElectricityConsumptionForSpot} from '../classes/electricity-consumption-for-spot';
 import {closeCalendar} from '@angular/material/datepicker/testing/datepicker-trigger-harness-base';
+import {error} from 'selenium-webdriver';
 
 //Jest to Komponent angulara, który łączy elementy html (templateUrl), css (styleUrl) i kod typescript, który poswstał na bazie JavaScriptu
 @Component({
@@ -25,6 +26,7 @@ export class StatisticsComponent implements OnInit {
   electricityConsumptionForSpotForm: FormGroup;
   occupationTimeAmountForm: FormGroup;
   spotsOccupiedInTimePeriodForm: FormGroup;
+  floorClosure: FormGroup;
 
   electricityConsumptionForFloorChart: ElectricityConsumptionForFloor;
   occupationTimeAmountChart: OccupationTimeAmount;
@@ -32,6 +34,8 @@ export class StatisticsComponent implements OnInit {
   electricityConsumptionForSpotChart: ElectricityConsumptionForSpot;
   spotsOccupiedInTimePeriodData: string[];
   numberOfEmployeesForFloorsAndTheirDailySalaryData;
+  numberOfClosedFloorAndPeriodOfClosure;
+  conclusionResponse;
 
   //Konstruktor klasy, czyli metoda wywoływana przy tworzeniu obiektu na podstawie tej klasy
   constructor(private statisticsService: StatisticsService) {
@@ -48,6 +52,12 @@ export class StatisticsComponent implements OnInit {
       hourlySalary: new FormControl('', Validators.required),
       spots: new FormControl('', Validators.required)
     });
+
+    this.floorClosure = new FormGroup({
+      startDate: new FormControl('', Validators.required),
+      endDate: new FormControl('', Validators.required),
+      floor: new FormControl('', Validators.required)
+    })
 
     this.electricityConsumptionForCarParkForm = new FormGroup({
       startDate: new FormControl(''),
@@ -159,6 +169,18 @@ export class StatisticsComponent implements OnInit {
       });
   }
 
+  closeTheFloor(): void {
+    this.statisticsService.closeTheFloor(
+      this.floorClosure.value.floor,
+      this.getCorrectDate(this.floorClosure.value.startDate),
+      this.getCorrectDate(this.floorClosure.value.endDate)
+    )
+      .subscribe(response => {
+        this.numberOfClosedFloorAndPeriodOfClosure = response;
+      }, error => {
+      });
+  }
+
   //Metoda, wysyłająca zapytanie do serwera poprzez serwis StatisticsService o dane, a następnie wyświetla je na wykresach
   //Metoda wyświetlająca wykres czasu przez jaki dane miejsce było zajęte
   getOccupationTimeAmount(): void {
@@ -206,6 +228,14 @@ export class StatisticsComponent implements OnInit {
         this.spotsOccupiedInTimePeriodData = response;
       }, error => {
       });
+  }
+
+  conclude(): void {
+    this.statisticsService.conclude().subscribe(
+      response => {
+        this.conclusionResponse = response;
+      }
+    );
   }
 
   //Metoda, zwracająca stringa z datą w formacie, w którym serwer ją odczyta (RRRR-MM-DD HH:SS)

@@ -134,4 +134,20 @@ export class StatisticsService {
     return this.http.get(this.url + 'occupiedSlots', {params});
   }
 
+  public closeTheFloor(
+    floor: number,
+    start: string,
+    end: string): Observable<any> {
+
+    let params = new HttpParams();
+    params = params.set('startDate', start);
+    params = params.set('endDate', end);
+
+    return this.http.post(this.url + 'close/' + floor, params);
+  }
+
+  public conclude(): Observable<any> {
+    return this.http.get(this.url + 'conclusion');
+  }
+
 }
