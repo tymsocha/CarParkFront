@@ -546,6 +546,7 @@
     <!--Wiersz, w którym znajduje się przycisk przekierowujący do poprzedniego formularza ze statystykami-->
     <mat-action-row>
       <button mat-button color="accent" (click)="prevStep()">Previous</button>
+      <button mat-button color="primary" (click)="nextStep()">Next</button>
     </mat-action-row>
   </mat-expansion-panel>
 
@@ -570,16 +571,25 @@
       <div *ngIf="this.floorsAverageOccupationTime && this.carParkAverageOccupationTime">
         <mat-list>
           <mat-list-item>
-            Average occupation time for parking lot is {{this.carParkAverageOccupationTime.averageOccupationTime}}
+            Average occupation time for parking lot is {{this.carParkAverageOccupationTime.averageOccupationTime}}.
+            <mat-divider></mat-divider>
+          </mat-list-item>
+          <mat-list-item>
+            Floors occupied less then parking average are marked red and those occupied more than park average are marked blue
           </mat-list-item>
         </mat-list>
-          <div *ngFor="let floor of this.floorsAverageOccupationTime">
-            <mat-list>
-              <mat-list-item>
-                Average occupation time on floor {{floor.floorOrCarPark}} is {{floor.averageOccupationTime}}
-              </mat-list-item>
-            </mat-list>
-          </div>
+        <mat-list class="spots-list">
+           <mat-list-item *ngFor="let floor of this.floorsAverageOccupationTime">
+             <div *ngIf="floor.averageOccupationTime <= this.carParkAverageOccupationTime.averageOccupationTime">
+               <p style="color: red">Average occupation time on floor {{floor.floorOrCarPark}} is {{floor.averageOccupationTime}}</p>
+               <mat-divider></mat-divider>
+             </div>
+             <div *ngIf="floor.averageOccupationTime > this.carParkAverageOccupationTime.averageOccupationTime">
+               <p style="color: blue"> Average occupation time on floor {{floor.floorOrCarPark}} is {{floor.averageOccupationTime}}</p>
+               <mat-divider></mat-divider>
+             </div>
+           </mat-list-item>
+        </mat-list>
       </div>
     </form>
 

@@ -26,8 +26,30 @@
       </mat-form-field>
     </div>
 
+    <h3 class="ui header">Or use excel file to generate data: </h3>
+
+    <label class="btn btn-default">
+      <input type="file" (change)="selectFile($event)" />
+    </label>
+
+    <!--<div *ngIf="currentFile" class="progress">-->
+      <!--<div-->
+        <!--class="progress-bar progress-bar-info progress-bar-striped"-->
+        <!--role="progressbar"-->
+        <!--attr.aria-valuenow="{{ progress }}"-->
+        <!--aria-valuemin="0"-->
+        <!--aria-valuemax="100"-->
+        <!--[ngStyle]="{ width: progress + '%' }"-->
+      <!--&gt;-->
+        <!--{{ progress }}%-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <div><br></div>
+
     <!--Przycisk, który po kliknięciu staje się nieaktywny z tekstem "Loading data..."-->
-    <button mat-raised-button color="primary" type="submit" class="uppercase" [disabled]="this.generatorForm.invalid || this.isLoading">
+    <button mat-raised-button color="primary" type="submit" class="uppercase"
+            [disabled]="(this.generatorForm.invalid || this.isLoading) && (!selectedFiles || this.isLoading)">
       <!--Sprawdzenie czy dane się ładują-->
       <span *ngIf="!this.isLoading">Generate</span>
       <span *ngIf="this.isLoading">Loading data...</span>

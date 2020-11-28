@@ -1,6 +1,11 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpParams, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import * as FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
+
+const EXCEL_TYPE = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
+const EXCEL_EXTENSION = '.xlsx';
 
 //Serwis służący do komunikacji z aplikacją serwerową
 @Injectable({
@@ -153,4 +158,22 @@ export class StatisticsService {
   public getCarParkAverageOccupationTime(): Observable<any> {
     return this.http.get(this.url + 'carParkAverage');
   }
+
+  public generateExcel(): Observable<any> {
+    return this.http.get(this.url + 'excel', {responseType: 'blob'});
+  }
+
+  public upload(file: File): Observable<HttpEvent<any>> {
+    const formData: FormData = new FormData();
+
+    formData.append('file', file);
+
+    const req = new HttpRequest('POST', this.url + 'excel', formData, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
+  }
+
 }

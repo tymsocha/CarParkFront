@@ -1,14 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {forkJoin, Observable, of} from 'rxjs';
 import {StatisticsService} from './statistics.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {catchError, map} from 'rxjs/operators';
 import {ElectricityConsumptionForFloor} from '../classes/electricity-consumption-for-floor';
 import {OccupationTimeAmount} from '../classes/occupation-time-amount';
 import {ElectricityConsumptionForCarPark} from '../classes/electricity-consumption-for-car-park';
 import {ElectricityConsumptionForSpot} from '../classes/electricity-consumption-for-spot';
-import {closeCalendar} from '@angular/material/datepicker/testing/datepicker-trigger-harness-base';
-import {error} from 'selenium-webdriver';
+import {saveAs} from 'file-saver';
+import {HttpEventType, HttpResponse} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
 //Jest to Komponent angulara, który łączy elementy html (templateUrl), css (styleUrl) i kod typescript, który poswstał na bazie JavaScriptu
 @Component({
@@ -258,5 +257,4 @@ export class StatisticsComponent implements OnInit {
   private getTimeZoneOffset(date: Date): number {
     return date.getTime() - date.getTimezoneOffset() * 60 * 1000;
   }
-
 }

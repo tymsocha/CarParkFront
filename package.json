@@ -23,11 +23,13 @@
     "@angular/platform-browser-dynamic": "~10.1.1",
     "@angular/router": "~10.1.1",
     "chart.js": "^2.9.3",
+    "file-saver": "^2.0.5",
     "ng2-charts": "^2.4.1",
     "rxjs": "~6.6.0",
     "semantic-ui-react": "^1.2.1",
     "sprintf-js": "^1.1.2",
     "tslib": "^2.0.0",
+    "xlsx": "^0.16.9",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {
